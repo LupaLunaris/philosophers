@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:00:05 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/01/27 21:08:38 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/01/28 12:55:32 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,11 @@ void	clean_exit(t_data *data)
 	}
 	pthread_mutex_destroy(&data->write_lock);
 	pthread_mutex_destroy(&data->death_lock);
-	free(data->forks);
-	free(data->philos);
+	pthread_mutex_destroy(&data->meal_lock);
+	if (data->forks)
+		free(data->forks);
+	if (data->philos)
+		free(data->philos);
 }
 
 long long	get_time(void)

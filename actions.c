@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:09:55 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/01/27 20:59:02 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/01/28 12:58:57 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	philo_sleep(t_philo *philo)
 
 void	philo_think(t_philo *philo)
 {
-	print_status(philo->data, philo->id, CYN "is thinking");
+	print_status(philo->data, philo->id, CYN "is thinking" RST);
 }
 
 int	check_death(t_philo *philo)

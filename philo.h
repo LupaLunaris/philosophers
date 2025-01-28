@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:01:45 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/01/27 20:48:19 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/01/28 13:07:54 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <stdbool.h>
+#include <signal.h>
 
 # define RST	"\033[0m"
 # define RED	"\033[0;31m"
@@ -53,10 +54,12 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				must_eat;
 	bool			someone_died;
+	bool			all_ate_enough;
 	long long		start_time;
 	t_mutex			*forks;
 	t_mutex			write_lock;
 	t_mutex			death_lock;
+	t_mutex			meal_lock;
 	t_philo			*philos;
 }	t_data;
 
@@ -81,8 +84,11 @@ int		check_death(t_philo *philo);
 void	*philosopher_routine(void *arg);
 
 /* monitor.c */
-int		start_simulation(t_data *data);
-void	*death_monitor(void *arg);
+int     start_simulation(t_data *data);
+void    *death_monitor(void *arg);
+int     check_simulation_end(t_data *data);
+int     check_all_ate_enough(t_data *data);
+int     check_philosopher_death(t_data *data, int i);
 
 /* main.c */
 int		main(int argc, char **argv);
