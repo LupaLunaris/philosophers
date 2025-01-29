@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:01:18 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/01/28 13:04:10 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:36:14 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,28 @@ void	init_mutexes(t_data *data)
 	}
 }
 
+static void	init_philo(t_data *data, int i)
+{
+	data->philos[i].id = i + 1;
+	data->philos[i].meals_eaten = 0;
+	data->philos[i].last_meal = data->start_time;
+	data->philos[i].left_fork_id = i;
+	data->philos[i].right_fork_id = (i + 1) % data->philo_count;
+	if (i % 2)
+	{
+		data->philos[i].left_fork = &data->forks[i];
+		data->philos[i].right_fork = &data->forks[(i + 1)
+			% data->philo_count];
+	}
+	else
+	{
+		data->philos[i].left_fork = &data->forks[(i + 1)
+			% data->philo_count];
+		data->philos[i].right_fork = &data->forks[i];
+	}
+	data->philos[i].data = data;
+}
+
 void	init_philosophers(t_data *data)
 {
 	int	i;
@@ -37,22 +59,7 @@ void	init_philosophers(t_data *data)
 	i = 0;
 	while (i < data->philo_count)
 	{
-		data->philos[i].id = i + 1;
-		data->philos[i].meals_eaten = 0;
-		data->philos[i].last_meal = data->start_time;
-		data->philos[i].left_fork_id = i;
-		data->philos[i].right_fork_id = (i + 1) % data->philo_count;
-		if (i % 2)
-		{
-			data->philos[i].left_fork = &data->forks[i];
-			data->philos[i].right_fork = &data->forks[(i + 1) % data->philo_count];
-		}
-		else
-		{
-			data->philos[i].left_fork = &data->forks[(i + 1) % data->philo_count];
-			data->philos[i].right_fork = &data->forks[i];
-		}
-		data->philos[i].data = data;
+		init_philo(data, i);
 		i++;
 	}
 }

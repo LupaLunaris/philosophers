@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:00:05 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/01/28 12:55:32 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:29:53 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,6 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	return (res * sign);
-}
-
-int	error(char *str)
-{
-	printf("⚠️\n	%s⚠️\n", str);
-	exit(EXIT_FAILURE);
 }
 
 void	clean_exit(t_data *data)

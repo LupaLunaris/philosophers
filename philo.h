@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:01:45 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/01/28 13:07:54 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/01/29 15:30:20 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <stdbool.h>
-#include <signal.h>
+# include <signal.h>
 
 # define RST	"\033[0m"
 # define RED	"\033[0;31m"
@@ -32,6 +32,8 @@
 # define ORG    "\033[0;38;5;208m"
 
 typedef pthread_mutex_t	t_mutex;
+
+typedef struct s_data	t_data;
 
 typedef struct s_philo
 {
@@ -64,33 +66,33 @@ typedef struct s_data
 }	t_data;
 
 /* init.c */
-int		init_data(t_data *data, char **argv);
-void	init_philosophers(t_data *data);
-void	init_mutexes(t_data *data);
+int			init_data(t_data *data, char **argv);
+void		init_philosophers(t_data *data);
+void		init_mutexes(t_data *data);
 
 /* utils.c */
-int		ft_atoi(const char *str);
-int		error(char *str);
-void	clean_exit(t_data *data);
+int			ft_atoi(const char *str);
+void		clean_exit(t_data *data);
 long long	get_time(void);
-void	print_status(t_data *data, int id, char *status);
-void	accurate_sleep(long long time);
+void		print_status(t_data *data, int id, char *status);
+void		accurate_sleep(long long time);
 
 /* actions.c */
-void	philo_eat(t_philo *philo);
-void	philo_sleep(t_philo *philo);
-void	philo_think(t_philo *philo);
-int		check_death(t_philo *philo);
-void	*philosopher_routine(void *arg);
+void		philo_eat(t_philo *philo);
+void		philo_sleep(t_philo *philo);
+void		philo_think(t_philo *philo);
+int			check_death(t_philo *philo);
+void		*philosopher_routine(void *arg);
 
 /* monitor.c */
-int     start_simulation(t_data *data);
-void    *death_monitor(void *arg);
-int     check_simulation_end(t_data *data);
-int     check_all_ate_enough(t_data *data);
-int     check_philosopher_death(t_data *data, int i);
+int			start_simulation(t_data *data);
+void		*death_monitor(void *arg);
+int			check_simulation_end(t_data *data);
+int			check_all_ate_enough(t_data *data);
+int			check_philosopher_death(t_data *data, int i);
 
 /* main.c */
-int		main(int argc, char **argv);
+int			error(char *str);
+int			main(int argc, char **argv);
 
 #endif
