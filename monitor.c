@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:00:25 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/01/28 13:08:27 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/02 18:23:12 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	check_all_ate_enough(t_data *data)
 int	check_philosopher_death(t_data *data, int i)
 {
 	pthread_mutex_lock(&data->death_lock);
-	if (get_time() - data->philos[i].last_meal > data->time_to_die)
+	if (get_time() - data->philos[i].last_meal >= data->time_to_die)
 	{
 		print_status(data, data->philos[i].id, RED "died" RST);
 		data->someone_died = true;

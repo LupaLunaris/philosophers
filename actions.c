@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 16:09:55 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/01/28 19:59:41 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/02 18:21:35 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	*philosopher_routine(void *arg)
 	while (!check_death(philo))
 	{
 		philo_eat(philo);
+		if (philo->data->philo_count == 1)
+        	break;
 		if (philo->data->must_eat != -1
 			&& philo->meals_eaten >= philo->data->must_eat)
 			break ;

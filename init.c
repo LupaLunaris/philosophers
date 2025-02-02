@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:01:18 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/01/29 15:36:14 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/02 18:01:39 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	init_data(t_data *data, char **argv)
 		data->must_eat = ft_atoi(argv[5]);
 	if (data->philo_count < 1 || data->time_to_die < 0 || data->time_to_eat < 0
 		|| data->time_to_sleep < 0 || (argv[5] && data->must_eat < 0))
-		return (error(MAG "Invalid arguments: > 0\n" RST));
+		return (error(MAG "Invalid arguments\n" RST));
 	if (data->time_to_die < 60)
 		return (error(MAG "Time to die must be at least 60ms\n" RST));
 	if (data->time_to_eat < 60)
