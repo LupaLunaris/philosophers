@@ -6,11 +6,19 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 13:59:22 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/01/29 15:30:00 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/03 11:26:30 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	print_status(t_data *data, int id, char *status)
+{
+	pthread_mutex_lock(&data->write_lock);
+	if (!data->someone_died)
+		printf("%lld %d %s\n", get_time() - data->start_time, id, status);
+	pthread_mutex_unlock(&data->write_lock);
+}
 
 int	error(char *str)
 {

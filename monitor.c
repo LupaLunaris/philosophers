@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:00:25 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/02 18:23:12 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/03 10:33:24 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	start_simulation(t_data *data)
 	i = 0;
 	while (i < data->philo_count)
 	{
+		data->philos[i].last_meal = data->start_time;
 		if (pthread_create(&data->philos[i].thread, NULL,
 				philosopher_routine, &data->philos[i]))
 			return (error(BLU "Thread creation failed\n" RST));

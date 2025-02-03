@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:00:05 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/02 18:22:03 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/03 11:27:24 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,14 @@ long long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	print_status(t_data *data, int id, char *status)
+int	check_death(t_philo *philo)
 {
-	pthread_mutex_lock(&data->write_lock);
-	if (!data->someone_died)
-		printf("%lld %d %s\n", get_time() - data->start_time, id, status);
-	pthread_mutex_unlock(&data->write_lock);
+	pthread_mutex_lock(&philo->data->death_lock);
+	if (philo->data->someone_died)
+	{
+		pthread_mutex_unlock(&philo->data->death_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->data->death_lock);
+	return (0);
 }
