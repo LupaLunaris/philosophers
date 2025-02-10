@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:01:18 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/10 16:42:35 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/10 17:56:12 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	init_state(t_state *state, int argc, char **argv)
 		|| state->time_to_eat < 0 || state->time_to_sleep < 0)
 		return (1);
 	state->stop_simulation = 0;
-	state->start_time = get_current_time();
 	state->threads_done = 0;
 	if (pthread_mutex_init(&state->end_lock, NULL))
 		return (1);
@@ -72,6 +71,7 @@ int	init_philosophers(t_state *state)
 		state->philosophers[i].left_fork = &state->forks[i];
 		state->philosophers[i].right_fork = &state->forks[(i + 1)
 			% state->philo_count];
+		state->start_time = get_current_time();
 		i++;
 	}
 	return (0);

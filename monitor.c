@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:00:25 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/10 17:24:26 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/10 17:58:46 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	check_death(t_state *state, t_philo *philo)
 
 	pthread_mutex_lock(&philo->meal_lock);
 	current_time = get_current_time();
-	if (current_time - philo->last_meal > state->time_to_die)
+	if (current_time - philo->last_meal >= state->time_to_die)
 	{
 		pthread_mutex_unlock(&philo->meal_lock);
 		if (set_simulation_stop(state))
