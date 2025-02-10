@@ -6,83 +6,53 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:00:05 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/03 11:27:24 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/10 16:39:44 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	accurate_sleep(long long time)
+long	get_current_time(void)
 {
-	long long	start;
-	long long	current;
+	struct timeval	time;
 
-	start = get_time();
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+void	smart_sleep(long duration)
+{
+	long	start;
+	long	current;
+
+	start = get_current_time();
 	while (1)
 	{
-		current = get_time();
-		if (current - start >= time)
+		current = get_current_time();
+		if (current - start >= duration)
 			break ;
-		usleep(10);
+		usleep(100);
 	}
 }
 
-int	ft_atoi(const char *str)
+void	print_status(t_philo *philo, char *status)
 {
-	int	res;
-	int	sign;
-
-	res = 0;
-	sign = 1;
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '-')
-		sign = -1;
-	if (*str == '-' || *str == '+')
-		str++;
-	while (*str >= '0' && *str <= '9')
+	if (!simulation_should_stop(philo->state))
 	{
-		res = res * 10 + (*str - '0');
-		str++;
+		pthread_mutex_lock(&philo->state->write_lock);
+		printf("%ld %d %s\n"RST,
+			get_current_time() - philo->state->start_time,
+			philo->id, status);
+		pthread_mutex_unlock(&philo->state->write_lock);
 	}
-	return (res * sign);
 }
 
-void	clean_exit(t_data *data)
+int	simulation_should_stop(t_state *state)
 {
-	int	i;
+	int	stop;
 
-	i = 0;
-	while (i < data->philo_count)
-	{
-		pthread_mutex_destroy(&data->forks[i]);
-		i++;
-	}
-	pthread_mutex_destroy(&data->write_lock);
-	pthread_mutex_destroy(&data->death_lock);
-	pthread_mutex_destroy(&data->meal_lock);
-	if (data->forks)
-		free(data->forks);
-	if (data->philos)
-		free(data->philos);
-}
-
-long long	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-int	check_death(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->death_lock);
-	if (philo->data->someone_died)
-	{
-		pthread_mutex_unlock(&philo->data->death_lock);
-		return (1);
-	}
-	pthread_mutex_unlock(&philo->data->death_lock);
-	return (0);
+	pthread_mutex_lock(&state->stop_lock);
+	stop = state->stop_simulation;
+	pthread_mutex_unlock(&state->stop_lock);
+	return (stop);
 }

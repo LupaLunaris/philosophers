@@ -6,97 +6,88 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:00:25 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/03 10:33:24 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/10 17:24:26 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	check_all_ate_enough(t_data *data)
+static int	set_simulation_stop(t_state *state)
 {
-	int	i;
-	int	finished;
-
-	i = 0;
-	finished = 0;
-	if (data->must_eat == -1)
-		return (0);
-	while (i < data->philo_count)
+	pthread_mutex_lock(&state->stop_lock);
+	if (!state->stop_simulation)
 	{
-		pthread_mutex_lock(&data->meal_lock);
-		if (data->philos[i].meals_eaten >= data->must_eat)
-			finished++;
-		pthread_mutex_unlock(&data->meal_lock);
-		i++;
-	}
-	return (finished == data->philo_count);
-}
-
-int	check_philosopher_death(t_data *data, int i)
-{
-	pthread_mutex_lock(&data->death_lock);
-	if (get_time() - data->philos[i].last_meal >= data->time_to_die)
-	{
-		print_status(data, data->philos[i].id, RED "died" RST);
-		data->someone_died = true;
-		pthread_mutex_unlock(&data->death_lock);
+		state->stop_simulation = 1;
+		pthread_mutex_unlock(&state->stop_lock);
 		return (1);
 	}
-	pthread_mutex_unlock(&data->death_lock);
+	pthread_mutex_unlock(&state->stop_lock);
 	return (0);
 }
 
-int	check_simulation_end(t_data *data)
+static int	check_death(t_state *state, t_philo *philo)
 {
-	pthread_mutex_lock(&data->death_lock);
-	if (data->someone_died)
+	long	current_time;
+
+	pthread_mutex_lock(&philo->meal_lock);
+	current_time = get_current_time();
+	if (current_time - philo->last_meal > state->time_to_die)
 	{
-		pthread_mutex_unlock(&data->death_lock);
+		pthread_mutex_unlock(&philo->meal_lock);
+		if (set_simulation_stop(state))
+		{
+			pthread_mutex_lock(&state->write_lock);
+			printf("%ld %d %sdied%s\n",
+				current_time - state->start_time,
+				philo->id, RED, RST);
+			pthread_mutex_unlock(&state->write_lock);
+		}
 		return (1);
 	}
-	pthread_mutex_unlock(&data->death_lock);
-	return (check_all_ate_enough(data));
+	pthread_mutex_unlock(&philo->meal_lock);
+	return (0);
 }
 
-void	*death_monitor(void *arg)
+static int	check_meals(t_state *state)
 {
-	t_data	*data;
-	int		i;
+	int	i;
+	int	finished_eating;
 
-	data = (t_data *)arg;
-	while (!check_simulation_end(data))
+	if (state->meals_to_eat == -1)
+		return (0);
+	i = 0;
+	finished_eating = 0;
+	while (i < state->philo_count)
 	{
-		i = -1;
-		while (++i < data->philo_count && !data->someone_died)
+		pthread_mutex_lock(&state->philosophers[i].meal_lock);
+		if (state->philosophers[i].meals_eaten >= state->meals_to_eat)
+			finished_eating++;
+		pthread_mutex_unlock(&state->philosophers[i].meal_lock);
+		i++;
+	}
+	return (finished_eating == state->philo_count);
+}
+
+void	monitor_simulation(t_state *state)
+{
+	int	i;
+
+	while (1)
+	{
+		i = 0;
+		while (i < state->philo_count)
 		{
-			if (check_philosopher_death(data, i))
-				return (NULL);
+			if (check_death(state, &state->philosophers[i]))
+				return ;
+			if (check_meals(state))
+			{
+				pthread_mutex_lock(&state->stop_lock);
+				state->stop_simulation = 1;
+				pthread_mutex_unlock(&state->stop_lock);
+				return ;
+			}
+			i++;
 		}
 		usleep(1000);
 	}
-	return (NULL);
-}
-
-int	start_simulation(t_data *data)
-{
-	int			i;
-	pthread_t	monitor;
-
-	data->start_time = get_time();
-	i = 0;
-	while (i < data->philo_count)
-	{
-		data->philos[i].last_meal = data->start_time;
-		if (pthread_create(&data->philos[i].thread, NULL,
-				philosopher_routine, &data->philos[i]))
-			return (error(BLU "Thread creation failed\n" RST));
-		i++;
-	}
-	if (pthread_create(&monitor, NULL, death_monitor, data))
-		return (error(BLU "Monitor thread creation failed\n" RST));
-	i = -1;
-	while (++i < data->philo_count)
-		pthread_join(data->philos[i].thread, NULL);
-	pthread_join(monitor, NULL);
-	return (0);
 }
