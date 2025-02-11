@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:01:18 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/10 17:56:12 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/11 13:21:23 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ static int	create_mutexes(t_state *state)
 
 int	init_state(t_state *state, int argc, char **argv)
 {
-	state->philo_count = atoi(argv[1]);
-	state->time_to_die = atoi(argv[2]);
-	state->time_to_eat = atoi(argv[3]);
-	state->time_to_sleep = atoi(argv[4]);
+	state->philo_count = ft_atoi(argv[1]);
+	state->time_to_die = ft_atoi(argv[2]);
+	state->time_to_eat = ft_atoi(argv[3]);
+	state->time_to_sleep = ft_atoi(argv[4]);
 	state->meals_to_eat = -1;
 	if (argc == 6)
-		state->meals_to_eat = atoi(argv[5]);
+		state->meals_to_eat = ft_atoi(argv[5]);
 	if (state->philo_count < 1 || state->time_to_die < 0
 		|| state->time_to_eat < 0 || state->time_to_sleep < 0)
 		return (1);

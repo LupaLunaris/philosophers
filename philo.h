@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:01:45 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/10 17:24:17 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/11 13:16:39 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ long	get_current_time(void);
 void	smart_sleep(long duration);
 void	print_status(t_philo *philo, char *status);
 int		simulation_should_stop(t_state *state);
+int		ft_atoi(const char *str);
 
 #endif
