@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:01:18 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/11 13:21:23 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/11 15:40:42 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	init_philosophers(t_state *state)
 {
 	int	i;
 
+	state->start_time = get_current_time();
 	state->philosophers = malloc(sizeof(t_philo) * state->philo_count);
 	if (!state->philosophers)
 		return (1);
@@ -64,14 +65,13 @@ int	init_philosophers(t_state *state)
 	{
 		state->philosophers[i].id = i + 1;
 		state->philosophers[i].meals_eaten = 0;
-		state->philosophers[i].last_meal = get_current_time();
+		state->philosophers[i].last_meal = state->start_time;
 		state->philosophers[i].state = state;
 		if (pthread_mutex_init(&state->philosophers[i].meal_lock, NULL))
 			return (1);
 		state->philosophers[i].left_fork = &state->forks[i];
 		state->philosophers[i].right_fork = &state->forks[(i + 1)
 			% state->philo_count];
-		state->start_time = get_current_time();
 		i++;
 	}
 	return (0);

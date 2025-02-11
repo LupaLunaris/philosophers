@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:01:45 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/11 13:16:39 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/11 15:11:57 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ struct s_state
 	t_philo			*philosophers;
 	pthread_mutex_t	end_lock;
 	int				threads_done;
+	pthread_mutex_t	priority_lock;
 };
 
 // init.c

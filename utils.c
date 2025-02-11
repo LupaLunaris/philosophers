@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:00:05 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/11 13:19:40 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/11 15:53:47 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	print_status(t_philo *philo, char *status)
 	if (!simulation_should_stop(philo->state))
 	{
 		pthread_mutex_lock(&philo->state->write_lock);
-		printf("%ld %d %s\n"RST,
+		printf("%ld %d %s\n" RST,
 			get_current_time() - philo->state->start_time,
 			philo->id, status);
 		pthread_mutex_unlock(&philo->state->write_lock);
