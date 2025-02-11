@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 13:59:22 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/11 13:35:55 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/11 13:39:48 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ static int	is_valid_arguments(int argc, char **argv)
 {
 	if (ft_atoi(argv[1]) <= 0)
 		return (printf(RED"No valid input.\
-Please insert a number of philosophers higher than 0.\n"RST), -1);
+Please insert a number of philosophers greater than 0.\n"RST), -1);
 	if (ft_atoi(argv[2]) < 60 || ft_atoi(argv[3]) < 60
 		|| ft_atoi(argv[4]) < 60)
 		return (printf(RED"No valid input.\
-Please insert positive integers higher than 59.\n\
+Please insert positive integers greater than 59.\n\
 ex: ./philo 5 800 200 200\n" RST), -1);
 	if (argc == 6 && (ft_atoi(argv[5]) <= 0))
 		return (printf(RED"No valid input.\
-Please insert a positive number of meals, higher than 0.\n"RST), -1);
+Please insert a positive number of meals, greater than 0.\n"RST), -1);
 	return (0);
 }
 
