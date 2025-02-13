@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:00:25 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/11 15:40:09 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/13 14:43:36 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,11 @@ void	monitor_simulation(t_state *state)
 				return ;
 			if (check_meals(state))
 			{
-				pthread_mutex_lock(&state->stop_lock);
-				state->stop_simulation = 1;
-				pthread_mutex_unlock(&state->stop_lock);
+				set_simulation_stop(state);
 				return ;
 			}
 			i++;
 		}
-		usleep(1000);
+		usleep(50);
 	}
 }

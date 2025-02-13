@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 13:59:22 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/11 15:27:55 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/13 20:17:39 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 static int	is_valid_arguments(int argc, char **argv)
 {
 	if (ft_atoi(argv[1]) <= 0)
-		return (printf(RED"No valid input.\
+		return (printf(RED"No valid input.\n\
 Please insert a number of philosophers greater than 0.\n"RST), -1);
-	if (ft_atoi(argv[2]) < 60 || ft_atoi(argv[3]) < 60
-		|| ft_atoi(argv[4]) < 60)
-		return (printf(RED"No valid input.\
-Please insert positive integers greater than 59.\n\
+	if (ft_atoi(argv[2]) <= 0 || ft_atoi(argv[3]) <= 0
+		|| ft_atoi(argv[4]) <= 0)
+		return (printf(RED"No valid input.\n\
+Please insert positive integers greater than 0.\n\
 ex: ./philo 5 800 200 200\n" RST), -1);
+	if (ft_atoi(argv[2]) < 60 || ft_atoi(argv[3]) < 60 || ft_atoi(argv[4]) < 60)
+		printf(ORG"Warning: Using low timing values (less than 60 ms) might result in \
+unexpected or unplayable behavior.\n"RST);
 	if (argc == 6 && (ft_atoi(argv[5]) <= 0))
-		return (printf(RED"No valid input.\
+		return (printf(RED"No valid input.\n\
 Please insert a positive number of meals, greater than 0.\n"RST), -1);
 	return (0);
 }
@@ -46,7 +49,7 @@ static int	check_args(int argc, char **argv)
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
 			{
-				printf(RED"Error: Arguments must be numbers\n"RST);
+				printf(RED"Error: Arguments must be numbers only\n"RST);
 				return (1);
 			}
 			j++;
