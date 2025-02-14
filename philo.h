@@ -6,7 +6,7 @@
 /*   By: Jpaulis <Jpaulis@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 14:01:45 by Jpaulis           #+#    #+#             */
-/*   Updated: 2025/02/13 20:18:24 by Jpaulis          ###   ########.fr       */
+/*   Updated: 2025/02/14 09:29:11 by Jpaulis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <unistd.h>
 
 # define RST    "\033[0m"
-# define RED    "\033[0;31m;"
+# define RED    "\033[0;31m"
 # define GRN    "\033[0;32m"
 # define YEL    "\033[0;33m"
 # define BLU    "\033[0;34m"
